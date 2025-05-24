@@ -8,27 +8,30 @@
     "image",
     "react"
   ],
+  "type": "module",
   "author": "xiaoyu <xiaoooyooo@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Xiaoooyooo/vite-plugin-img2jsx"
+    "url": "git+https://github.com/Xiaoooyooo/vite-plugin-img2jsx.git"
   },
   "description": "A vite plugin that converts images into React components",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "client.d.ts"
   ],
   "exports": {
     ".": {
       "default": "./dist/index.js"
     },
-    "./client": "./src/client.d.ts"
+    "./client": "./client.d.ts"
   },
   "scripts": {
-    "dev": "tsc -w",
-    "build": "tsc"
+    "clean": "rm -rf dist",
+    "dev": "npm run clean && tsc -w",
+    "build": "npm run clean && tsc"
   },
   "devDependencies": {
     "@types/node": "^22.15.19",

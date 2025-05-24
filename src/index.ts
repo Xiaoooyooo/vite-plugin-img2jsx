@@ -175,7 +175,7 @@ function wrapJSXComponent(url: string, componentName: string) {
 }
 
 function hashMD5(content: Buffer) {
-  const hash = crypto.createHash("SHA-256", {});
+  const hash = crypto.createHash("SHA256", {});
   hash.update(content);
   return hash.digest("base64");
 }
