@@ -1,12 +1,16 @@
 {
   "name": "vite-plugin-img2jsx",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "keywords": [
     "vite",
-    "plugin",
-    "transform",
+    "vite-plugin",
+    "react",
+    "react-component",
+    "jsx",
     "image",
-    "react"
+    "img",
+    "image-to-jsx",
+    "img2jsx"
   ],
   "type": "module",
   "author": "xiaoyu <xiaoooyooo@gmail.com>",
