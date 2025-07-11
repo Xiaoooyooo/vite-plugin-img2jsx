@@ -55,7 +55,7 @@ export default function imgToJSX(options: ImgToJSXOptions = {}): PluginOption {
     name: "vite-plugin-img2jsx",
     async transform(code, id, options) {
       if (!test.test(id)) return;
-      const { command, root } = this.environment.config;
+      const { command, root, base } = this.environment.config;
       const isBuildMode = command === "build";
       if (this.cache && this.cache.has(id)) {
         return this.cache.get(id);
@@ -66,6 +66,7 @@ export default function imgToJSX(options: ImgToJSXOptions = {}): PluginOption {
       let url: string;
       if (!isBuildMode) {
         url = filename.replace(root, "");
+        if (base) url = base.replace(/\/$/, "") + url;
       } else {
         const match = filename.match(/.+\/([^/]+)(\.(\w+))$/);
         if (!match) {
@@ -81,8 +82,7 @@ export default function imgToJSX(options: ImgToJSXOptions = {}): PluginOption {
             templateName = assetFilename(filename);
           }
           const content = await readFileArrayBuffer(filename);
-          const hash = hashMD5(content);
-          console.log({ name, extname, ext, hash, searchQuery });
+          const hash = hashContent(content);
           url = getAssetFilename(templateName, { name, extname, ext, hash });
           if (isBuildMode) {
             this.emitFile({
@@ -91,6 +91,7 @@ export default function imgToJSX(options: ImgToJSXOptions = {}): PluginOption {
               source: content
             });
           }
+          if (base) url = base + url;
         } else {
           url = await readFileBase64(filename, extname);
         }
@@ -174,7 +175,7 @@ function wrapJSXComponent(url: string, componentName: string) {
 }`;
 }
 
-function hashMD5(content: Buffer) {
+function hashContent(content: Buffer) {
   const hash = crypto.createHash("SHA256", {});
   hash.update(content);
   return hash.digest("base64");
